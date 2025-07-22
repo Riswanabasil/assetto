@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  deleteGRN,
-  filterGRNs,
-} from "../../services/grnApis";
+import { deleteGRN, filterGRNs } from "../../services/grnApis";
 import { fetchVendors } from "../../services/VendorService";
 import { getAllBranches } from "../../services/BranchService";
 import type { GRNResponse } from "../../types/grn";
@@ -10,7 +7,8 @@ import type { IVendor } from "../../types/vendor";
 import type { IBranch } from "../../types/branch";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { exportGRNsToExcel } from "../../utils/exportToExcel"
+import { exportGRNsToExcel } from "../../utils/exportToExcel";
+import { Pencil, Trash2 } from "lucide-react";
 
 export default function GRNListPage() {
   const [grns, setGRNs] = useState<GRNResponse[]>([]);
@@ -33,7 +31,7 @@ export default function GRNListPage() {
     setVendors(v);
     setBranches(b);
     const initialGRNs = await filterGRNs();
-    console.log(initialGRNs)
+    console.log(initialGRNs);
     setGRNs(initialGRNs);
   };
 
@@ -64,23 +62,27 @@ export default function GRNListPage() {
       <h2 className="text-2xl font-bold mb-4">GRN List</h2>
 
       <div className="flex justify-between mb-4">
-  <button
-    onClick={() => navigate("/grns/create")}
-    className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-  >
-    ➕ Add GRN
-  </button>
-  <button
-    onClick={() => exportGRNsToExcel(grns)}
-    className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-  >
-    ⬇️ Download Report
-  </button>
-</div>
+        <button
+          onClick={() => navigate("/grns/create")}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          ➕ Add GRN
+        </button>
+        <button
+          onClick={() => exportGRNsToExcel(grns)}
+          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+        >
+          ⬇️ Download Report
+        </button>
+      </div>
 
       {/* Filter Section */}
       <div className="grid grid-cols-4 gap-4 mb-6">
-        <select value={vendorId} onChange={(e) => setVendorId(e.target.value)} className="border p-2">
+        <select
+          value={vendorId}
+          onChange={(e) => setVendorId(e.target.value)}
+          className="border p-2"
+        >
           <option value="">All Vendors</option>
           {vendors.map((v) => (
             <option key={v._id} value={v._id}>
@@ -89,7 +91,11 @@ export default function GRNListPage() {
           ))}
         </select>
 
-        <select value={branchId} onChange={(e) => setBranchId(e.target.value)} className="border p-2">
+        <select
+          value={branchId}
+          onChange={(e) => setBranchId(e.target.value)}
+          className="border p-2"
+        >
           <option value="">All Branches</option>
           {branches.map((b) => (
             <option key={b._id} value={b._id}>
@@ -138,11 +144,13 @@ export default function GRNListPage() {
             <tr key={grn._id}>
               <td className="p-2 border">{grn.grnNumber}</td>
               <td className="p-2 border">{grn.invoiceNumber}</td>
-              <td className="p-2 border">{new Date(grn.grnDate).toLocaleDateString()}</td>
+              <td className="p-2 border">
+                {new Date(grn.grnDate).toLocaleDateString()}
+              </td>
               <td className="p-2 border">{grn.vendor}</td>
               <td className="p-2 border">{grn.branch}</td>
               <td className="p-2 border">₹{grn.totalAmount.toFixed(2)}</td>
-              <td className="p-2 border space-x-2">
+              {/* <td className="p-2 border space-x-2">
                 <button
                   onClick={() => navigate(`/grns/edit/${grn._id}`)}
                   className="bg-yellow-500 text-white px-2 py-1 rounded"
@@ -154,6 +162,23 @@ export default function GRNListPage() {
                   className="bg-red-600 text-white px-2 py-1 rounded"
                 >
                   Delete
+                </button>
+              </td> */}
+
+              <td className="p-2 border space-x-2 flex">
+                <button
+                  onClick={() => navigate(`/grns/edit/${grn._id}`)}
+                  className="p-2 bg-blue-100 text-blue-600 hover:bg-blue-200 rounded"
+                  title="Edit"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(grn._id)}
+                  className="p-2 bg-red-100 text-red-600 hover:bg-red-200 rounded"
+                  title="Delete"
+                >
+                  <Trash2 size={16} />
                 </button>
               </td>
             </tr>

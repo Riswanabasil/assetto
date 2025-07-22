@@ -1,15 +1,22 @@
-
 import {
-  Button, Table, TableHead, TableRow, TableCell, TableBody,
-  Typography, Paper
+  Button,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Typography,
+  Paper,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
-  getAllBranches, createBranch, updateBranch, deleteBranch
+  getAllBranches,
+  createBranch,
+  updateBranch,
+  deleteBranch,
 } from "../../services/BranchService";
 import BranchForm from "./BranchForm";
-import type { IBranch } from "../../types/branch";
-
+import type { IBranch } from "../../types/branch";import { Pencil, Trash2 } from "lucide-react";
 export default function BranchListPage() {
   const [branches, setBranches] = useState<IBranch[]>([]);
   const [open, setOpen] = useState(false);
@@ -44,7 +51,15 @@ export default function BranchListPage() {
     <Paper className="p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h5">Branch Management</Typography>
-        <Button variant="contained" onClick={() => { setEditData(null); setOpen(true); }}>Add Branch</Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setEditData(null);
+            setOpen(true);
+          }}
+        >
+          Add Branch
+        </Button>
       </div>
 
       <Table>
@@ -62,9 +77,29 @@ export default function BranchListPage() {
               <TableCell>{b.name}</TableCell>
               <TableCell>{b.location}</TableCell>
               <TableCell>{b.code}</TableCell>
-              <TableCell>
+              {/* <TableCell>
                 <Button size="small" onClick={() => { setEditData(b); setOpen(true); }}>Edit</Button>
                 <Button size="small" color="error" onClick={() => handleDelete(b._id!)}>Delete</Button>
+              </TableCell> */}
+
+              <TableCell className="px-6 py-3 flex gap-3">
+                <button
+                  onClick={() => {
+                    setEditData(b);
+                    setOpen(true);
+                  }}
+                  className="p-2 bg-blue-100 text-blue-600 hover:bg-blue-200 rounded"
+                  title="Edit"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(b._id!)}
+                  className="p-2 bg-red-100 text-red-600 hover:bg-red-200 rounded"
+                  title="Delete"
+                >
+                  <Trash2 size={16} />
+                </button>
               </TableCell>
             </TableRow>
           ))}
@@ -73,7 +108,10 @@ export default function BranchListPage() {
 
       <BranchForm
         open={open}
-        onClose={() => { setOpen(false); setEditData(null); }}
+        onClose={() => {
+          setOpen(false);
+          setEditData(null);
+        }}
         onSubmit={handleCreate}
         defaultValues={editData || undefined}
       />
