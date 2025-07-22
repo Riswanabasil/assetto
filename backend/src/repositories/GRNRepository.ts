@@ -63,6 +63,7 @@ if (filters.vendorId && Types.ObjectId.isValid(filters.vendorId)) {
     );
 
     return {
+      _id:grn._id,
       grnNumber: grn.grnNumber,
       grnDate: grn.grnDate,
       invoiceNumber: grn.invoiceNumber,
