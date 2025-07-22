@@ -89,3 +89,10 @@ src/
     |-- App.tsx
     |-- main.tsx
 
+
+    ## Running Frontend Locally
+
+    cd frontend
+    npm install
+    npm run dev
+

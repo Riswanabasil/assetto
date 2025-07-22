@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { VendorService } from '../services/VendorService';
-import { VendorRepository } from '../repositories/VendorRepository';
 
 
 

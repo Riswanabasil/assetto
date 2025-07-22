@@ -4,8 +4,6 @@ import {
 } from "lucide-react"
 
 const navItems = [
-  // { name: "Dashboard", icon: LayoutDashboard, path: "/" },
-  // { name: "Assets", icon: Package, path: "/assets" },
   { name: "Categories", icon: Tag, path: "/" },
   { name: "Subcategories", icon: Tags, path: "/subcategories" },
   { name: "Branches", icon: MapPin, path: "/branches" },
